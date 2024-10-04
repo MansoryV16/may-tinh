@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô phỏng Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .calculator {
+            display: inline-block;
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .display {
+            width: 160px;
+            height: 40px;
+            margin-bottom: 10px;
+            font-size: 24px;
+            text-align: right;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .button {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #bbb;
+        }
+
+        .button.equal {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .button.clear {
+            background-color: #ff6666;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="display" id="display" disabled>
+        <br>
+        <button class="button" onclick="appendNumber('7')">7</button>
+        <button class="button" onclick="appendNumber('8')">8</button>
+        <button class="button" onclick="appendNumber('9')">9</button>
+        <button class="button" onclick="setOperator('/')">/</button>
+        <br>
+        <button class="button" onclick="appendNumber('4')">4</button>
+        <button class="button" onclick="appendNumber('5')">5</button>
+        <button class="button" onclick="appendNumber('6')">6</button>
+        <button class="button" onclick="setOperator('*')">*</button>
+        <br>
+        <button class="button" onclick="appendNumber('1')">1</button>
+        <button class="button" onclick="appendNumber('2')">2</button>
+        <button class="button" onclick="appendNumber('3')">3</button>
+        <button class="button" onclick="setOperator('-')">-</button>
+        <br>
+        <button class="button" onclick="appendNumber('0')">0</button>
+        <button class="button clear" onclick="clearDisplay()">C</button>
+        <button class="button equal" onclick="calculate()">=</button>
+        <button class="button" onclick="setOperator('+')">+</button>
+    </div>
+
+    <script>
+        let currentOperator = '';
+        let firstNumber = '';
+        let secondNumber = '';
+        let resultShown = false;
+
+        function appendNumber(number) {
+            const display = document.getElementById('display');
+
+            if (resultShown) {
+                display.value = '';
+                resultShown = false;
+            }
+
+            display.value += number;
+        }
+
+        function setOperator(operator) {
+            firstNumber = document.getElementById('display').value;
+            currentOperator = operator;
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            secondNumber = document.getElementById('display').value;
+            let result = 0;
+
+            if (currentOperator === '+') {
+                result = parseFloat(firstNumber) + parseFloat(secondNumber);
+            } else if (currentOperator === '-') {
+                result = parseFloat(firstNumber) - parseFloat(secondNumber);
+            } else if (currentOperator === '*') {
+                result = parseFloat(firstNumber) * parseFloat(secondNumber);
+            } else if (currentOperator === '/') {
+                if (parseFloat(secondNumber) !== 0) {
+                    result = parseFloat(firstNumber) / parseFloat(secondNumber);
+                } else {
+                    alert("Không thể chia cho 0");
+                    return;
+                }
+            }
+
+            document.getElementById('display').value = result;
+            resultShown = true;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+            firstNumber = '';
+            secondNumber = '';
+            currentOperator = '';
+        }
+    </script>
+</body>
+</html>
